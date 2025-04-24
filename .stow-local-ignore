@@ -1,0 +1,7 @@
+Makefile
+
+\.git
+\.gitignore
+\.DS_Store
+
+^/README.*
