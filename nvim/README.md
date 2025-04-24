@@ -16,4 +16,4 @@ These are other tools that should be installed to help with some tools inside of
 
 ![Screenshot of code-refs](./screenshots/code-refs.png)
 
-![Screenshot of tests](./screenshots/tests)
+![Screenshot of tests](./screenshots/tests.png)
