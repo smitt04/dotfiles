@@ -10,22 +10,12 @@ map("n", "<Esc>", "<cmd>nohlsearch<CR>")
 -- Diagnostic keymaps
 map("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
--- Disable arrow keys in normal mode
--- map("n", "<left>", '<cmd>echo "Use h to move!!"<CR>')
--- map("n", "<right>", '<cmd>echo "Use l to move!!"<CR>')
--- map("n", "<up>", '<cmd>echo "Use k to move!!"<CR>')
--- map("n", "<down>", '<cmd>echo "Use j to move!!"<CR>')
+-- Movement
+map("i", "<M-b>", "<C-o>b", { desc = "Move cursor back one word", noremap = true })
+map("i", "<M-f>", "<C-o>w", { desc = "Move cursor forward one word", noremap = true })
+map("n", "<M-f>", "w", { desc = "Move cursor forward one word", noremap = true })
 
--- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
---
---  See `:help wincmd` for a list of all window commands
--- map("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
--- map("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
--- map("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
--- map("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
-
--- map("n", "<leader><leader>x", "<cmd>source %<CR>")
+-- Execute lua
 map("n", "<leader>x", ":.lua<CR>")
 map("v", "<leader>x", ":lua<CR>")
 
