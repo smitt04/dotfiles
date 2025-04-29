@@ -2,23 +2,30 @@
 -- https://github.com/nvim-neo-tree/neo-tree.nvim
 
 return {
-  'nvim-neo-tree/neo-tree.nvim',
-  version = '*',
+  "nvim-neo-tree/neo-tree.nvim",
+  version = "*",
   dependencies = {
-    'nvim-lua/plenary.nvim',
+    "nvim-lua/plenary.nvim",
     -- 'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
     { "echasnovski/mini.icons", opts = {} },
-    'MunifTanjim/nui.nvim',
+    "MunifTanjim/nui.nvim",
   },
-  cmd = 'Neotree',
+  cmd = "Neotree",
   keys = {
-    { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
+    { "\\", ":Neotree reveal<CR>", desc = "NeoTree reveal", silent = true },
   },
   opts = {
     filesystem = {
+      filtered_items = {
+        visible = true,
+        hide_dotfiles = false,
+        never_show = {
+          ".DS_Store",
+        },
+      },
       window = {
         mappings = {
-          ['\\'] = 'close_window',
+          ["\\"] = "close_window",
         },
       },
     },
