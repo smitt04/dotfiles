@@ -20,15 +20,7 @@ map("n", "<leader>x", ":.lua<CR>")
 map("v", "<leader>x", ":lua<CR>")
 
 -- buffers
-map("n", "<tab>", "<cmd>bnext<cr>", { desc = "Next buffer" })
-map("n", "<S-tab>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
-map("n", "<leader>bD", "<cmd>%bd|e#|bd#<cr>", { desc = "Close all but the current buffer" })
+map("n", "<tab>", "<cmd>bnext<cr>", { desc = "[B]uffer [N]ext" })
+map("n", "<S-tab>", "<cmd>bprevious<cr>", { desc = "[B]uffer [P]rev" })
+map("n", "<leader>bD", "<cmd>%bd|e#|bd#<cr>", { desc = "[B]uffer [D]elete - Close all but the current buffer" })
 map("n", "gb", ":BufferLinePick<CR>")
-
--- Create a terminal on the bottom
-map("n", "<leader>st", function()
-  vim.cmd.vnew()
-  vim.cmd.term()
-  vim.cmd.wincmd("J")
-  vim.api.nvim_win_set_height(0, 15)
-end)
