@@ -32,6 +32,9 @@ require("lazy").setup({
   ui = {
     icons = {},
   },
+  dev = {
+    path = "~/projects/smitt04",
+  },
   change_detection = {
     notify = false,
   },

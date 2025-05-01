@@ -232,6 +232,8 @@ return {
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
+            local override = _G.project_lsp_config[server_name] or {}
+            server = vim.tbl_deep_extend("force", server, override)
             -- This handles overriding only values explicitly passed
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
