@@ -21,13 +21,14 @@ return {
           },
           buffers = {
             sort_lastused = true,
-            ignore_current_buffer = true,
+            ignore_current_buffer = false,
+            sort_mru = true,
           },
           lsp_document_symbols = {
             symbol_width = 60,
           },
           lsp_dynamic_workspace_symbols = {
-            symbol_width = 60,
+            ymbol_width = 60,
           },
           diagnostics = {
             theme = "ivy",
@@ -96,7 +97,7 @@ return {
       vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
       -- vim.keymap.set("n", "<leader>st", builtin.builtin, { desc = "[S]earch [T]elescope" })
       vim.keymap.set("n", "<leader>st", "<cmd>:TodoTelescope<CR>", { desc = "[S]earch [T]odo" })
-      vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
+      vim.keymap.set("n", "<leader>sW", builtin.grep_string, { desc = "[S]earch current [W]ord" })
       vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
       vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
       vim.keymap.set("n", "<leader>s<space>", builtin.resume, { desc = "[S]earch [ ] Resume" })
@@ -149,6 +150,9 @@ return {
       vim.keymap.set("n", "<leader>sp", function()
         require("telescope").extensions.lazy_plugins.lazy_plugins()
       end, { desc = "[S]earch [P]lugins" })
+
+      -- Git Related Key Maps
+      vim.keymap.set("n", "<leader>gs", builtin.git_status, { desc = "[G]it [S]tatus" })
     end,
   },
 }

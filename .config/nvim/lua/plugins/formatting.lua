@@ -39,6 +39,7 @@ return {
         scss = { "prettierd", "prettier", stop_after_first = true },
         vue = { "prettierd", "prettier", stop_after_first = true },
         graphql = { "prettierd" },
+        sh = { "shfmt" },
         ["_"] = { "prettierd" },
       },
     },
