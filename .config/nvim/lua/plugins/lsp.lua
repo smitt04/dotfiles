@@ -167,9 +167,7 @@ return {
         yamlls = {},
         dockerls = {},
 
-        golangci_lint_ls = {
-          -- nolintername = true,
-        },
+        golangci_lint_ls = {},
         gopls = {
           settings = {
             gopls = {
