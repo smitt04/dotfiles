@@ -40,6 +40,7 @@ return {
         vue = { "prettierd", "prettier", stop_after_first = true },
         graphql = { "prettierd" },
         sh = { "shfmt" },
+        sql = { "pg_format" },
         ["_"] = { "prettierd" },
       },
     },
