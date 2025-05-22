@@ -15,9 +15,12 @@ return {
     ---@type AutoSession.Config
     opts = {
       -- allowed_dirs = { "~/projects/**" },
+      git_use_branch_name = true,
+      git_auto_restore_on_branch_change = true,
+      purge_after_minutes = 14400,
     },
     config = function(_, opts)
-      vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+      vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
       require("auto-session").setup(opts)
     end,
   },

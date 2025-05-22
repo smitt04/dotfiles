@@ -7,6 +7,18 @@ return {
       completion = {
         callSnippet = "Replace",
       },
+      runtime = {
+        version = "LuaJIT",
+      },
+      -- Make the server aware of Neovim runtime files
+      workspace = {
+        checkThirdParty = false,
+        library = {
+          vim.env.VIMRUNTIME,
+          "${3rd}/luv/library",
+        },
+        diagnostics = { disable = { "missing-fields" } },
+      },
     },
   },
 }

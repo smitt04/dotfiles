@@ -11,9 +11,10 @@ return {
     ---@type blink.cmp.Config
     opts = {
       keymap = {
-        ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
-        ["<C-e>"] = { "hide", "fallback" },
-        ["<CR>"] = { "accept", "fallback" },
+        preset = "enter",
+        -- ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+        -- ["<C-e>"] = { "hide", "fallback" },
+        -- ["<CR>"] = { "accept", "fallback" },
 
         ["<Tab>"] = {
           function(cmp)
@@ -30,11 +31,11 @@ return {
           "fallback",
         },
 
-        ["<C-k>"] = { "select_prev", "fallback" },
-        ["<C-j>"] = { "select_next", "fallback" },
-
-        ["<C-f>"] = { "scroll_documentation_up", "fallback" },
-        ["<C-b>"] = { "scroll_documentation_down", "fallback" },
+        -- ["<C-k>"] = { "select_prev", "fallback" },
+        -- ["<C-j>"] = { "select_next", "fallback" },
+        --
+        -- ["<C-f>"] = { "scroll_documentation_up", "fallback" },
+        -- ["<C-b>"] = { "scroll_documentation_down", "fallback" },
       },
 
       appearance = {
@@ -43,27 +44,27 @@ return {
 
       sources = {
         default = { "lsp", "path", "snippets", "buffer" },
-        providers = {
-          lsp = {
-            min_keyword_length = function(ctx)
-              return ctx.trigger.kind == "manual" and 0 or 2 -- trigger when invoking with shortcut
-            end,
-            score_offset = 0,
-          },
-          path = {
-            min_keyword_length = 0,
-          },
-          snippets = {
-            min_keyword_length = 2,
-            should_show_items = function(ctx)
-              return ctx.trigger.initial_kind ~= "trigger_character" and not require("blink.cmp").snippet_active()
-            end,
-          },
-          buffer = {
-            min_keyword_length = 5,
-            max_items = 5,
-          },
-        },
+        -- providers = {
+        --   lsp = {
+        --     min_keyword_length = function(ctx)
+        --       return ctx.trigger.kind == "manual" and 0 or 2 -- trigger when invoking with shortcut
+        --     end,
+        --     score_offset = 0,
+        --   },
+        --   path = {
+        --     min_keyword_length = 0,
+        --   },
+        --   snippets = {
+        --     min_keyword_length = 2,
+        --     should_show_items = function(ctx)
+        --       return ctx.trigger.initial_kind ~= "trigger_character" and not require("blink.cmp").snippet_active()
+        --     end,
+        --   },
+        --   buffer = {
+        --     min_keyword_length = 5,
+        --     max_items = 5,
+        --   },
+        -- },
       },
       cmdline = {
         keymap = {

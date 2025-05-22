@@ -1,8 +1,15 @@
 -- INFO:List of formatters to install via Mason
-local formatters = { "stylua", "goimports" }
+local formatters = {
+  "stylua",
+  "goimports",
+}
 
 -- INFO:List of linters to install via Mason
-local linters = { "golangci_lint_ls", "markdownlint", "eslint" }
+local linters = {
+  "golangci_lint_ls",
+  "markdownlint",
+  "eslint",
+}
 
 -- INFO:List of language servers to install & setup via Mason.
 -- NOTE: These should be nvim-lspconfig server names that are *also* supported by Mason for automatic server setup.
@@ -37,58 +44,21 @@ return {
     dependencies = {
       {
         "neovim/nvim-lspconfig",
+
+        -- Useful status updates for LSP.
+        { "j-hui/fidget.nvim", opts = {} },
+
+        -- Allows extra capabilities provided by blink.cmp
+        "saghen/blink.cmp",
       },
     },
-    opts = {},
+    opts = {
+      automatic_enable = allMasonPkgs,
+    },
   },
 }
 
---         html = {},
---         cssls = {},
---         yamlls = {},
---         dockerls = {},
---         bashls = {},
---
---         golangci_lint_ls = {},
---         gopls = {
---           settings = {
---             gopls = {
---               gofumpt = true,
---             },
---           },
---         },
---
---         lua_ls = {
---           settings = {
---             format = {
---               enable = false, -- let conform handle the formatting
---             },
---             Lua = {
---               completion = {
---                 callSnippet = "Replace",
---               },
---             },
---           },
---         },
---
--- vue_ls = {
---   version = "2.2.8",
--- },
---         ts_ls = {
--- init_options = {
---   plugins = {
---     {
---       name = "@vue/typescript-plugin",
---       location = vue_language_server_path,
---       languages = { "vue" },
---     },
---   },
--- },
--- filetypes = { "vue", "typescript", "javascript", "javascriptreact", "typescriptreact" },
---         },
---
---         graphql = {},
-
+-- OLD Config for Reference until fully migrated
 -- return {
 --   {
 --     "neovim/nvim-lspconfig",
