@@ -1,17 +1,18 @@
 return {
   {
-    'akinsho/toggleterm.nvim',
+    "akinsho/toggleterm.nvim",
+    enabled = false,
     version = "*",
     config = function()
-      require('toggleterm').setup {
+      require("toggleterm").setup({
         direction = "float",
         float_opts = {
-          border = 'rounded'
+          border = "rounded",
         },
-      }
+      })
 
-      vim.keymap.set({ 'n', 't' }, '<space>tt', require('toggleterm').toggle)
+      vim.keymap.set({ "n", "t" }, "<space>tt", require("toggleterm").toggle)
       vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
     end,
-  }
+  },
 }

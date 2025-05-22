@@ -1,6 +1,7 @@
 return {
   {
     "akinsho/bufferline.nvim",
+    enabled = false,
     version = "*",
     dependencies = "nvim-tree/nvim-web-devicons",
     config = function()
@@ -112,6 +113,9 @@ return {
   {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
-    opts = {},
+    opts = {
+      search = { pattern = [[\b(KEYWORDS)(\([^\)]*\))?:]] },
+      highlight = { pattern = [[.*<((KEYWORDS)%(\(.{-1,}\))?):]] },
+    },
   },
 }

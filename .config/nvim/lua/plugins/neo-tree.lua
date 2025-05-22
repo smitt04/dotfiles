@@ -13,8 +13,10 @@ return {
   cmd = "Neotree",
   keys = {
     { "\\", ":Neotree reveal<CR>", desc = "NeoTree reveal", silent = true },
+    { "<leader>nd", ":Neotree document_symbols right<CR>", desc = "NeoTree Document symbols", silent = true },
   },
   opts = {
+    sources = { "filesystem", "buffers", "git_status", "document_symbols" },
     filesystem = {
       filtered_items = {
         visible = true,
@@ -27,6 +29,15 @@ return {
       window = {
         mappings = {
           ["\\"] = "close_window",
+          ["e"] = function()
+            vim.api.nvim_exec("Neotree focus filesystem left", true)
+          end,
+          ["b"] = function()
+            vim.api.nvim_exec("Neotree focus buffers left", true)
+          end,
+          ["g"] = function()
+            vim.api.nvim_exec("Neotree focus git_status left", true)
+          end,
         },
       },
     },
