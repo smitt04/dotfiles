@@ -1,0 +1,23 @@
+# NOTE: docs:
+# ghostty +show-config --default --docs | nvim
+
+font-size = 14
+font-family = "JetBrainsMono Nerd Font"
+window-colorspace = display-p3
+unfocused-split-opacity = 1
+
+macos-titlebar-style = tabs
+macos-titlebar-proxy-icon = hidden
+macos-option-as-alt = true
+
+theme = tokyonight_night
+background = 101016
+background-opacity = 0.96
+background-blur-radius = 40
+
+mouse-hide-while-typing = true
+maximize = true
+
+keybind = super+ctrl+f=text:~/.local/scripts/tmux-sessionizer\n
+
+

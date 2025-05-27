@@ -75,7 +75,14 @@ return {
           Snacks.picker.git_status({
             finder = "git_status",
             format = "git_status",
-            focus = "list",
+            preview = "git_status",
+            win = {
+              input = {
+                keys = {
+                  ["<Tab>"] = { "git_stage", mode = { "n", "i" }, desc = "Toggle Git Stage" },
+                },
+              },
+            },
           })
         end,
         desc = "[G]it [S]tatus",
