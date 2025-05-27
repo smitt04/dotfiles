@@ -1,6 +1,22 @@
 return {
   "azorng/goose.nvim",
-  opts = {},
+  event = "VeryLazy",
+  opts = {
+    keymap = {
+      global = {
+        select_session = "<leader>gS",
+      },
+    },
+    providers = {
+      bedrock = {
+        "us.anthropic.claude-sonnet-4-20250514-v1:0",
+        "us.anthropic.claude-3-7-sonnet-20250219-v1:0",
+      },
+    },
+  },
+  config = function(_, opts)
+    require("goose").setup(opts)
+  end,
   dependencies = {
     "nvim-lua/plenary.nvim",
     {

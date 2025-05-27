@@ -10,6 +10,9 @@ return {
       runtime = {
         version = "LuaJIT",
       },
+      -- diagnostics = {
+      --   globals = { "Snacks" },
+      -- },
       -- Make the server aware of Neovim runtime files
       workspace = {
         checkThirdParty = false,
@@ -17,7 +20,11 @@ return {
           vim.env.VIMRUNTIME,
           "${3rd}/luv/library",
         },
-        diagnostics = { disable = { "missing-fields" } },
+        diagnostics = {
+          disable = {
+            "missing-fields",
+          },
+        },
       },
     },
   },

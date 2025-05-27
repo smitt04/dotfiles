@@ -1,12 +1,13 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    event = "BufReadPre",
     main = "nvim-treesitter.configs",
     build = ":TSUpdate",
     opts = {
-
       ensure_installed = {
         "go",
+        "gotmpl",
         "pug",
         "typescript",
         "javascript",

@@ -27,6 +27,7 @@ local language_servers = {
   "graphql-language-service-cli",
   "bashls",
   "terraformls",
+  "ghostty-ls",
 }
 
 local allMasonPkgs = vim.iter({ language_servers, linters, formatters }):flatten():totable()
@@ -35,7 +36,15 @@ return {
   {
     "whoissethdaniel/mason-tool-installer.nvim",
     dependencies = {
-      { "williamboman/mason.nvim", opts = {} },
+      {
+        "williamboman/mason.nvim",
+        opts = {
+          registries = {
+            "github:mason-org/mason-registry",
+            "github:mkindberg/ghostty-ls",
+          },
+        },
+      },
     },
     opts = { ensure_installed = allMasonPkgs },
   },
@@ -46,7 +55,7 @@ return {
         "neovim/nvim-lspconfig",
 
         -- Useful status updates for LSP.
-        { "j-hui/fidget.nvim", opts = {} },
+        { "j-hui/fidget.nvim", event = "LspAttach", opts = {} },
 
         -- Allows extra capabilities provided by blink.cmp
         "saghen/blink.cmp",
@@ -56,6 +65,7 @@ return {
       automatic_enable = allMasonPkgs,
     },
   },
+  { "mkindberg/ghostty-ls", config = true },
 }
 
 -- OLD Config for Reference until fully migrated

@@ -17,6 +17,20 @@ return {
   },
   opts = {
     sources = { "filesystem", "buffers", "git_status", "document_symbols" },
+    event_handlers = {
+      {
+        event = "file_moved",
+        handler = function(data)
+          Snacks.rename.on_rename_file(data.source, data.destination)
+        end,
+      },
+      {
+        event = "file_renamed",
+        handler = function(data)
+          Snacks.rename.on_rename_file(data.source, data.destination)
+        end,
+      },
+    },
     filesystem = {
       filtered_items = {
         visible = true,

@@ -2,7 +2,7 @@ return {
   { "digitaltoad/vim-pug" },
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+    ft = "markdown",
     dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" }, -- if you use standalone mini plugins
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
     ---@module 'render-markdown'
@@ -107,6 +107,7 @@ return {
   },
   {
     "janBorowy/jirac.nvim",
+    enabled = false,
     dependencies = {
       "MunifTanjim/nui.nvim",
       "grapp-dev/nui-components.nvim",
@@ -124,6 +125,17 @@ return {
       { "<leader>jv", "<cmd>JiracIssue VPN<cr>", desc = "[J]ira [V]iew" },
       { "<leader>jc", "<cmd>JiracIssueCreate VPN<cr>", desc = "[J]ira [C]reate" },
       -- { "<leader>jt", require("jira.pickers.telescope").transitions, desc = "[J]ira [S]earch" },
+    },
+  },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua", -- only load on lua files
+    opts = {
+      library = {
+        -- See the configuration section for more details
+        -- Load luvit types when the `vim.uv` word is found
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      },
     },
   },
 }

@@ -96,11 +96,26 @@ return {
     },
   },
   {
-    "NeogitOrg/neogit",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "sindrets/diffview.nvim",
-      "nvim-telescope/telescope.nvim",
+    "sindrets/diffview.nvim",
+    opts = {
+      enhanced_diff_hl = true,
     },
+    config = function(_, opts)
+      require("diffview").setup(opts)
+    end,
   },
+  -- {
+  --   "NeogitOrg/neogit",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     "sindrets/diffview.nvim",
+  --     "nvim-telescope/telescope.nvim",
+  --   },
+  --   opts = {
+  --     kind = "floating",
+  --     popup = {
+  --       kind = "floating",
+  --     },
+  --   },
+  -- },
 }

@@ -1,9 +1,25 @@
 return {
   {
     "folke/tokyonight.nvim",
-    enabled = false,
-    config = function()
-      vim.cmd.colorscheme("tokyonight")
+    enabled = true,
+    lazy = false,
+    priority = 1000,
+    ---@class tokyonight.Config
+    opts = {
+      style = "night",
+      transparent = true,
+      styles = {
+        sidebars = "transparent",
+        floats = "transparent",
+      },
+      on_colors = function(colors)
+        colors.bg = "#101016"
+        colors.bg_sidebar = "#0b0b10"
+      end,
+    },
+    config = function(_, opts)
+      require("tokyonight").setup(opts)
+      vim.cmd.colorscheme("tokyonight-night")
     end,
   },
   {
@@ -20,7 +36,7 @@ return {
   {
     "bluz71/vim-moonfly-colors",
     name = "moonfly",
-    enabled = true,
+    enabled = false,
     priority = 1000,
     config = function()
       vim.g.moonflyCursorColor = true
