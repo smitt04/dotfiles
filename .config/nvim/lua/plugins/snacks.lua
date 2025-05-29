@@ -12,12 +12,13 @@ return {
             sort_lastused = true,
             hidden = false,
             current = false,
-            layout = "ivy", -- vertical layout (input and list at the top, preview below)
-            focus = "list", -- open in normal mode for immediate j/k navigation
-            height = 0.4, -- smaller overall height for the buffers picker
-            matcher = {
-              frecency = false,
-            },
+            -- layout = "ivy", -- vertical layout (input and list at the top, preview below)
+            -- focus = "list", -- open in normal mode for immediate j/k navigation
+            -- height = 0.4, -- smaller overall height for the buffers picker
+            -- matcher = {
+            --   cwd_bonus
+            --   frecency = false,
+            -- },
           })
         end,
         desc = "Search Buffers",
