@@ -125,6 +125,22 @@ return {
         end,
         desc = "[S]earch [F]iles",
       },
+      {
+        "<leader>bD",
+        function()
+          Snacks.bufdelete.other()
+          Snacks.notify.info("Deleted other buffers")
+        end,
+        desc = "[B]uffer [D]elete - Delete all buffers but current",
+      },
+      {
+        "<leader>bd",
+        function()
+          Snacks.bufdelete.delete()
+          Snacks.notify.info("Deleted current buffer")
+        end,
+        desc = "[B]uffer [d]elete - Delete current buffer",
+      },
     },
     ---@type snacks.Config
     opts = {
@@ -136,14 +152,17 @@ return {
       notifier = {
         enabled = true,
       },
+      notify = {},
       dashboard = {},
       toggle = { enabled = true },
       scroll = {},
       rename = {},
+      bufdelete = {},
       picker = {
         matcher = {
           frecency = true,
           sort_empty = true,
+          hidden = true,
         },
         filter = {
           cwd = true,
@@ -159,28 +178,28 @@ return {
     },
   },
 
-  -- {
-  --   "folke/trouble.nvim",
-  --   optional = true,
-  --   specs = {
-  --     "folke/snacks.nvim",
-  --     opts = function(_, opts)
-  --       return vim.tbl_deep_extend("force", opts or {}, {
-  --         picker = {
-  --           actions = require("trouble.sources.snacks").actions,
-  --           win = {
-  --             input = {
-  --               keys = {
-  --                 ["<c-t>"] = {
-  --                   "trouble_open",
-  --                   mode = { "n", "i" },
-  --                 },
-  --               },
-  --             },
-  --           },
-  --         },
-  --       })
-  --     end,
-  --   },
-  -- },
+  {
+    "folke/trouble.nvim",
+    optional = true,
+    specs = {
+      "folke/snacks.nvim",
+      opts = function(_, opts)
+        return vim.tbl_deep_extend("force", opts or {}, {
+          picker = {
+            actions = require("trouble.sources.snacks").actions,
+            win = {
+              input = {
+                keys = {
+                  ["<c-t>"] = {
+                    "trouble_open",
+                    mode = { "n", "i" },
+                  },
+                },
+              },
+            },
+          },
+        })
+      end,
+    },
+  },
 }

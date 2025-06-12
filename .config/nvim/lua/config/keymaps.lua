@@ -22,5 +22,11 @@ map("v", "<leader>x", ":lua<CR>")
 -- buffers
 -- map("n", "<tab>", "<cmd>bnext<cr>", { desc = "[B]uffer [N]ext" })
 -- map("n", "<S-tab>", "<cmd>bprevious<cr>", { desc = "[B]uffer [P]rev" })
-map("n", "<leader>bD", "<cmd>%bd|e#|bd#<cr>", { desc = "[B]uffer [D]elete - Close all but the current buffer" })
+-- map(
+--   "n",
+--   "<leader>bD",
+--   ":lua Snacks.bufdelete.other()<CR>",
+--   { desc = "[B]uffer [D]elete - Close all but the current buffer" }
+-- )
+-- map("n", "<leader>bd", ":lua Snacks.bufdelete.delete()<CR>", { desc = "[B]uffer [d]elete - Close the current buffer" })
 map("n", "gb", ":BufferLinePick<CR>")

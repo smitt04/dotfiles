@@ -1,5 +1,4 @@
 local o = vim.opt
-
 -- stylua: ignore start
 o.autoread       = true -- Enable autoread of files
 o.breakindent    = true -- Enable breakindent so wrapped lines continue indented
@@ -8,7 +7,7 @@ o.confirm        = true -- show confirm dialog on destructive actions
 o.cursorline     = true -- Show line the cursor is on
 o.cursorline     = true -- highlight the current line
 o.foldenable     = true -- enable folding
-o.foldexpr       = "v:lua.vnext.foldexpr()" -- custom foldexpression
+o.foldexpr       = "v:lua.vim.treesitter.foldexpr()" -- custom foldexpression
 o.foldlevel      = 99
 o.foldlevelstart = -1 -- top level folds only are closed by default
 o.foldmethod     = "expr"

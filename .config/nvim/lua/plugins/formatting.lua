@@ -16,6 +16,7 @@ return {
     opts = {
       log_level = vim.log.levels.DEBUG,
       notify_on_error = false,
+      lsp_format = "first",
       format_on_save = function(bufnr)
         if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
           return
@@ -41,7 +42,7 @@ return {
         graphql = { "prettierd" },
         sh = { "shfmt" },
         sql = { "pg_format" },
-        ["_"] = { "prettierd" },
+        -- ["_"] = { "prettierd" },
       },
     },
   },

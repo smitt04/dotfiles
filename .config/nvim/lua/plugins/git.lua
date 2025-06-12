@@ -98,7 +98,7 @@ return {
   {
     "sindrets/diffview.nvim",
     opts = {
-      enhanced_diff_hl = true,
+      enhanced_diff_hl = false,
     },
     config = function(_, opts)
       require("diffview").setup(opts)
