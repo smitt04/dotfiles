@@ -1,4 +1,3 @@
-local Snacks = require("snacks")
 return {
   {
     "folke/snacks.nvim",
@@ -8,7 +7,7 @@ return {
       {
         "<leader><space>",
         function()
-          Snacks.picker.buffers({
+          require("snacks").picker.buffers({
             sort_lastused = true,
             hidden = false,
             current = false,
@@ -26,7 +25,7 @@ return {
       {
         "<leader>sg",
         function()
-          Snacks.picker.grep({
+          require("snacks").picker.grep({
             cmd = "rg",
             hidden = true,
             ignored = true,
@@ -37,21 +36,21 @@ return {
       {
         "<leader>sh",
         function()
-          Snacks.picker.help()
+          require("snacks").picker.help()
         end,
         desc = "[S]earch [H]elp",
       },
       {
         "<leader>dd",
         function()
-          Snacks.picker.diagnostics({ layout = "ivy" })
+          require("snacks").picker.diagnostics({ layout = "ivy" })
         end,
         desc = "Show Diagnostics",
       },
       {
         "<leader>gl",
         function()
-          Snacks.picker.git_log({
+          require("snacks").picker.git_log({
             finder = "git_log",
             format = "git_log",
             preview = "git_show",
@@ -64,7 +63,7 @@ return {
       {
         "<leader>gb",
         function()
-          Snacks.picker.git_branches({
+          require("snacks").picker.git_branches({
             layout = "select",
           })
         end,
@@ -73,7 +72,7 @@ return {
       {
         "<leader>gs",
         function()
-          Snacks.picker.git_status({
+          require("snacks").picker.git_status({
             finder = "git_status",
             format = "git_status",
             preview = "git_status",
@@ -92,7 +91,7 @@ return {
       {
         "<leader>sk",
         function()
-          Snacks.picker.keymaps({
+          require("snacks").picker.keymaps({
             layout = "vertical",
           })
         end,
@@ -101,7 +100,7 @@ return {
       {
         "<leader>sf",
         function()
-          Snacks.picker.smart({
+          require("snacks").picker.smart({
             multi = { "recent", "buffers", "files" },
             matcher = {
               cwd_bonus = false, -- do not favor items in the current directory
@@ -128,16 +127,16 @@ return {
       {
         "<leader>bD",
         function()
-          Snacks.bufdelete.other()
-          Snacks.notify.info("Deleted other buffers")
+          require("snacks").bufdelete.other()
+          require("snacks").notify.info("Deleted other buffers")
         end,
         desc = "[B]uffer [D]elete - Delete all buffers but current",
       },
       {
         "<leader>bd",
         function()
-          Snacks.bufdelete.delete()
-          Snacks.notify.info("Deleted current buffer")
+          require("snacks").bufdelete.delete()
+          require("snacks").notify.info("Deleted current buffer")
         end,
         desc = "[B]uffer [d]elete - Delete current buffer",
       },
