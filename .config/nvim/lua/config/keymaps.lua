@@ -3,6 +3,9 @@ local function map(mode, key, cmd, opts)
   vim.keymap.set(mode, key, cmd, opts)
 end
 
+-- Change paste to not yank text
+map("x", "p", '"_dP', { noremap = true, silent = true })
+
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 map("n", "<Esc>", "<cmd>nohlsearch<CR>")

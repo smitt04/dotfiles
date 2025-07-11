@@ -5,6 +5,9 @@ font-size = 14
 font-family = "JetBrainsMono Nerd Font"
 window-colorspace = display-p3
 unfocused-split-opacity = 1
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
 
 macos-titlebar-style = tabs
 macos-titlebar-proxy-icon = hidden

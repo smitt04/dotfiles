@@ -89,6 +89,9 @@ return {
           "-count=1",
           "-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out",
         },
+        env = {
+          GOEXPERIMENT = "synctest",
+        },
       }
       require("neotest").setup({
         adapters = {
@@ -100,9 +103,18 @@ return {
   {
     "andythigpen/nvim-coverage",
     version = "*",
+    keys = {
+      { "<leader>tc", "<cmd>Coverage<cr>", desc = "Coverage in gutter" },
+      { "<leader>tC", "<cmd>CoverageLoad<cr><cmd>CoverageSummary<cr>", desc = "Coverage summary" },
+    },
     config = function()
       require("coverage").setup({
         auto_reload = true,
+        lang = {
+          go = {
+            coverage_file = vim.fn.getcwd() .. "/coverage.out",
+          },
+        },
       })
     end,
   },

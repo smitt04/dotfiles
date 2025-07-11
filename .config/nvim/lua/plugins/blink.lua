@@ -16,20 +16,20 @@ return {
         -- ["<C-e>"] = { "hide", "fallback" },
         -- ["<CR>"] = { "accept", "fallback" },
 
-        ["<Tab>"] = {
-          function(cmp)
-            return cmp.select_next()
-          end,
-          "snippet_forward",
-          "fallback",
-        },
-        ["<S-Tab>"] = {
-          function(cmp)
-            return cmp.select_prev()
-          end,
-          "snippet_backward",
-          "fallback",
-        },
+        -- ["<Tab>"] = {
+        --   function(cmp)
+        --     return cmp.select_next()
+        --   end,
+        --   "snippet_forward",
+        --   "fallback",
+        -- },
+        -- ["<S-Tab>"] = {
+        --   function(cmp)
+        --     return cmp.select_prev()
+        --   end,
+        --   "snippet_backward",
+        --   "fallback",
+        -- },
 
         -- ["<C-k>"] = { "select_prev", "fallback" },
         -- ["<C-j>"] = { "select_next", "fallback" },

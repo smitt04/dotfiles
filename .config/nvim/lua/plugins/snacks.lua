@@ -140,6 +140,13 @@ return {
         end,
         desc = "[B]uffer [d]elete - Delete current buffer",
       },
+      {
+        "<leader>nh",
+        function()
+          require("snacks").notifier.show_history()
+        end,
+        desc = "[N]otification [H]istory",
+      },
     },
     ---@type snacks.Config
     opts = {
@@ -150,6 +157,7 @@ return {
       },
       notifier = {
         enabled = true,
+        style = "fancy",
       },
       notify = {},
       dashboard = {},

@@ -14,7 +14,7 @@ return {
     ---@module "auto-session"
     ---@type AutoSession.Config
     opts = {
-      -- git_use_branch_name = true,
+      git_use_branch_name = true,
       -- git_auto_restore_on_branch_change = true,
       auto_restore = true,
       purge_after_minutes = 14400,
