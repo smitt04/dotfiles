@@ -1,7 +1,8 @@
 return {
   {
     "azorng/goose.nvim",
-    event = "VeryLazy",
+    -- event = "VeryLazy",
+    lazy = false,
     opts = {
       keymap = {
         global = {
@@ -12,6 +13,7 @@ return {
         bedrock = {
           "us.anthropic.claude-sonnet-4-20250514-v1:0",
           "us.anthropic.claude-3-7-sonnet-20250219-v1:0",
+          "us.anthropic.claude-opus-4-20250514-v1:0",
         },
       },
     },
@@ -46,5 +48,19 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
+  },
+  {
+    "greggh/claude-code.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- Required for git operations
+    },
+    config = function()
+      require("claude-code").setup({
+        command = "~/.claude/local/node_modules/.bin/claude",
+        window = {
+          position = "float",
+        },
+      })
+    end,
   },
 }

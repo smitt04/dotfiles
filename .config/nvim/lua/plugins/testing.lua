@@ -83,6 +83,8 @@ return {
     config = function()
       local neotest_golang_opts = {
         runner = "go",
+        testify_enabled = true,
+        gotestsum_args = {},
         go_test_args = {
           "-v",
           "-race",
