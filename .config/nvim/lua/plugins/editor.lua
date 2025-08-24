@@ -119,6 +119,20 @@ return {
     opts = {
       search = { pattern = [[\b(KEYWORDS)(\([^\)]*\))?:]] },
       highlight = { pattern = [[.*<((KEYWORDS)%(\(.{-1,}\))?):]] },
+      keywords = {
+        QUESTION = { icon = "", color = "hint", alt = { "REVIEW", "\\?" } },
+      },
+    },
+  },
+  {
+    "chrisgrieser/nvim-early-retirement",
+    config = true,
+    event = "VeryLazy",
+    opts = {
+      retirementAgeMins = 60 * 4,
+      minimumBufferNum = 10,
+      notificationOnAutoClose = true,
+      deleteBufferWhenFileDeleted = true,
     },
   },
 }

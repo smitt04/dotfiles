@@ -7,7 +7,9 @@ return {
       "antoinemadec/FixCursorHold.nvim",
       "nvim-treesitter/nvim-treesitter",
       {
-        "fredrikaverpil/neotest-golang",
+        -- "fredrikaverpil/neotest-golang",
+        dir = "~/projects/smitt04/neotest-golang",
+        dev = true,
         version = "*",
         dependencies = {
           "andythigpen/nvim-coverage",
@@ -94,6 +96,7 @@ return {
         env = {
           GOEXPERIMENT = "synctest",
         },
+        dev_notifications = true,
       }
       require("neotest").setup({
         adapters = {

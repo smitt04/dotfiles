@@ -59,6 +59,21 @@ return {
         command = "~/.claude/local/node_modules/.bin/claude",
         window = {
           position = "float",
+
+          float = {
+            width = "30%",
+            height = "99%",
+            row = 0,
+            col = "100%",
+          },
+        },
+        keymaps = {
+          toggle = {
+            normal = "<leader>cc",
+          },
+          variants = {
+            continue = "<leader>cC",
+          },
         },
       })
     end,
