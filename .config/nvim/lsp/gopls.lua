@@ -4,8 +4,9 @@ return {
       gofumpt = true,
       templateExtensions = { "gotmpl" },
       env = {
-        GOEXPERIMENT = "synctest",
+        GOEXPERIMENT = "jsonv2",
       },
+      buildFlags = { "-tags=libvirt" },
     },
   },
 }

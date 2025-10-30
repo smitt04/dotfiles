@@ -94,7 +94,7 @@ return {
           "-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out",
         },
         env = {
-          GOEXPERIMENT = "synctest",
+          GOEXPERIMENT = "jsonv2",
         },
         dev_notifications = true,
       }

@@ -23,12 +23,13 @@ local language_servers = {
   "lua_ls",
   "vtsls",
   "vue_ls",
-  -- "ts_ls",
   "graphql",
   "graphql-language-service-cli",
   "bashls",
   "terraformls",
+  "tofu_ls",
   "ghostty-ls",
+  "buf_ls",
 }
 
 local allMasonPkgs = vim.iter({ language_servers, linters, formatters }):flatten():totable()
