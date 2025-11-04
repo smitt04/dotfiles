@@ -1,6 +1,5 @@
 -- INFO:List of formatters to install via Mason
 local formatters = {
-  "stylua",
   "goimports",
 }
 
