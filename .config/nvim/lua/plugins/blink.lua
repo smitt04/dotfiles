@@ -12,30 +12,6 @@ return {
     opts = {
       keymap = {
         preset = "enter",
-        -- ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
-        -- ["<C-e>"] = { "hide", "fallback" },
-        -- ["<CR>"] = { "accept", "fallback" },
-
-        -- ["<Tab>"] = {
-        --   function(cmp)
-        --     return cmp.select_next()
-        --   end,
-        --   "snippet_forward",
-        --   "fallback",
-        -- },
-        -- ["<S-Tab>"] = {
-        --   function(cmp)
-        --     return cmp.select_prev()
-        --   end,
-        --   "snippet_backward",
-        --   "fallback",
-        -- },
-
-        -- ["<C-k>"] = { "select_prev", "fallback" },
-        -- ["<C-j>"] = { "select_next", "fallback" },
-        --
-        -- ["<C-f>"] = { "scroll_documentation_up", "fallback" },
-        -- ["<C-b>"] = { "scroll_documentation_down", "fallback" },
       },
 
       appearance = {
@@ -52,27 +28,6 @@ return {
             score_offset = 100,
           },
         },
-        -- providers = {
-        --   lsp = {
-        --     min_keyword_length = function(ctx)
-        --       return ctx.trigger.kind == "manual" and 0 or 2 -- trigger when invoking with shortcut
-        --     end,
-        --     score_offset = 0,
-        --   },
-        --   path = {
-        --     min_keyword_length = 0,
-        --   },
-        --   snippets = {
-        --     min_keyword_length = 2,
-        --     should_show_items = function(ctx)
-        --       return ctx.trigger.initial_kind ~= "trigger_character" and not require("blink.cmp").snippet_active()
-        --     end,
-        --   },
-        --   buffer = {
-        --     min_keyword_length = 5,
-        --     max_items = 5,
-        --   },
-        -- },
       },
       cmdline = {
         keymap = {
@@ -103,6 +58,37 @@ return {
           border = "rounded",
           draw = {
             columns = { { "label", "label_description", gap = 1 }, { "kind_icon" } },
+            components = {
+              -- customize the drawing of kind icons
+              kind_icon = {
+                text = function(ctx)
+                  -- default kind icon
+                  local icon = ctx.kind_icon
+                  -- if LSP source, check for color derived from documentation
+                  if ctx.item.source_name == "LSP" then
+                    local color_item =
+                      require("nvim-highlight-colors").format(ctx.item.documentation, { kind = ctx.kind })
+                    if color_item and color_item.abbr ~= "" then
+                      icon = color_item.abbr
+                    end
+                  end
+                  return icon .. ctx.icon_gap
+                end,
+                highlight = function(ctx)
+                  -- default highlight group
+                  local highlight = "BlinkCmpKind" .. ctx.kind
+                  -- if LSP source, check for color derived from documentation
+                  if ctx.item.source_name == "LSP" then
+                    local color_item =
+                      require("nvim-highlight-colors").format(ctx.item.documentation, { kind = ctx.kind })
+                    if color_item and color_item.abbr_hl_group then
+                      highlight = color_item.abbr_hl_group
+                    end
+                  end
+                  return highlight
+                end,
+              },
+            },
           },
         },
       },

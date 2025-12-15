@@ -1,5 +1,7 @@
 return {
-  { "digitaltoad/vim-pug" },
+  {
+    "JoosepAlviste/nvim-ts-context-commentstring",
+  },
   {
     "MeanderingProgrammer/render-markdown.nvim",
     ft = "markdown",
@@ -82,53 +84,6 @@ return {
     end,
   },
   { "wakatime/vim-wakatime", lazy = false },
-
-  {
-    "kid-icarus/jira.nvim",
-    enabled = false,
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim", -- optional
-      "folke/snacks.nvim", -- optional
-    },
-    opts = {
-      jira_api = {
-        domain = vim.env.JIRA_DOMAIN,
-        username = vim.env.JIRA_USER,
-        token = vim.env.JIRA_API_TOKEN,
-      },
-      use_git_branch_issue_id = true,
-      git_trunk_branch = "development", -- The main branch of your project
-      git_branch_prefix = "feature/", -- The prefix for your feature branches
-    }, -- see configuration section
-    keys = {
-      { "<leader>jv", "<cmd>Jira issue view<cr>", desc = "[J]ira [V]iew" },
-      { "<leader>jc", "<cmd>Jira issue create<cr>", desc = "[J]ira [C]reate" },
-      -- { "<leader>jt", require("jira.pickers.telescope").transitions, desc = "[J]ira [S]earch" },
-    },
-  },
-  {
-    "janBorowy/jirac.nvim",
-    enabled = false,
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      "grapp-dev/nui-components.nvim",
-      "nvim-lua/plenary.nvim",
-    },
-    opts = {
-      jira_domain = vim.env.JIRA_DOMAIN,
-      email = vim.env.JIRA_USER,
-      api_key = vim.env.JIRA_API_TOKEN,
-      config = {
-        default_project_key = "VPN",
-      },
-    },
-    keys = {
-      { "<leader>jv", "<cmd>JiracIssue VPN<cr>", desc = "[J]ira [V]iew" },
-      { "<leader>jc", "<cmd>JiracIssueCreate VPN<cr>", desc = "[J]ira [C]reate" },
-      -- { "<leader>jt", require("jira.pickers.telescope").transitions, desc = "[J]ira [S]earch" },
-    },
-  },
   {
     "folke/lazydev.nvim",
     ft = "lua", -- only load on lua files
@@ -139,23 +94,5 @@ return {
         { path = "${3rd}/luv/library", words = { "vim%.uv" } },
       },
     },
-  },
-
-  {
-    "pwntester/octo.nvim",
-    requires = {
-      "nvim-lua/plenary.nvim",
-      -- "nvim-telescope/telescope.nvim",
-      -- OR 'ibhagwan/fzf-lua',
-      "folke/snacks.nvim",
-      "nvim-tree/nvim-web-devicons",
-    },
-    opts = {
-      picker = "snacks",
-      use_local_fs = true,
-    },
-    config = function(_, opts)
-      require("octo").setup(opts)
-    end,
   },
 }

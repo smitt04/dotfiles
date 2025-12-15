@@ -5,15 +5,24 @@ return {
       "nvim-neotest/nvim-nio",
       "nvim-lua/plenary.nvim",
       "antoinemadec/FixCursorHold.nvim",
-      "nvim-treesitter/nvim-treesitter",
       {
-        -- "fredrikaverpil/neotest-golang",
-        dir = "~/projects/smitt04/neotest-golang",
-        dev = true,
+        "nvim-treesitter/nvim-treesitter",
+        branch = "main",
+        build = function()
+          vim.cmd(":TSUpdate go")
+        end,
+      },
+      {
+        "fredrikaverpil/neotest-golang",
+        -- dir = "~/projects/smitt04/neotest-golang",
+        -- dev = true,
         version = "*",
         dependencies = {
           "andythigpen/nvim-coverage",
         },
+        build = function()
+          vim.system({ "go", "install", "gotest.tools/gotestsum@latest" }):wait() -- Optional, but recommended
+        end,
       },
     },
     keys = {
@@ -84,7 +93,7 @@ return {
 
     config = function()
       local neotest_golang_opts = {
-        runner = "go",
+        runner = "gotestsum",
         testify_enabled = true,
         gotestsum_args = {},
         go_test_args = {

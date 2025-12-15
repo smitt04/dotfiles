@@ -9,6 +9,7 @@ end
 
 require("config.usercmd")
 require("config.lazy")
+require("config.treesitter")
 require("config.options")
 require("config.keymaps")
 require("config.autocmd")

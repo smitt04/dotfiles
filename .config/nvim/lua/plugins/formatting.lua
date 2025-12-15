@@ -42,8 +42,6 @@ return {
         graphql = { "prettierd" },
         sh = { "shfmt" },
         sql = { "pg_format" },
-        -- proto = { "buf" },
-        -- ["_"] = { "prettierd" },
       },
     },
   },

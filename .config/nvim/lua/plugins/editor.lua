@@ -1,26 +1,14 @@
 return {
   {
-    "akinsho/bufferline.nvim",
-    enabled = false,
-    version = "*",
-    dependencies = "nvim-tree/nvim-web-devicons",
-    config = function()
-      vim.opt.termguicolors = true
-      require("bufferline").setup({})
-    end,
-  },
-  {
     "rmagatti/auto-session",
     ---@module "auto-session"
     ---@type AutoSession.Config
     opts = {
       git_use_branch_name = true,
-      -- git_auto_restore_on_branch_change = true,
       auto_restore = true,
       purge_after_minutes = 14400,
     },
     config = function(_, opts)
-      -- vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
       require("auto-session").setup(opts)
     end,
   },
@@ -38,7 +26,6 @@ return {
       vim.keymap.set("n", "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
       vim.keymap.set("n", "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
       vim.keymap.set("n", "<C-\\>", nvim_tmux_nav.NvimTmuxNavigateLastActive)
-      -- vim.keymap.set('n', "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
     end,
   },
   {
@@ -57,12 +44,6 @@ return {
       vim.keymap.set("n", "<leader>S", '<cmd>lua require("spectre").toggle()<CR>', {
         desc = "Toggle Spectre",
       })
-      -- vim.keymap.set("n", "<leader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', {
-      --   desc = "Search current word",
-      -- })
-      -- vim.keymap.set("v", "<leader>sw", '<esc><cmd>lua require("spectre").open_visual()<CR>', {
-      --   desc = "Search current word",
-      -- })
       vim.keymap.set("n", "<leader>sp", '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', {
         desc = "Search on current file",
       })
@@ -134,5 +115,12 @@ return {
       notificationOnAutoClose = true,
       deleteBufferWhenFileDeleted = true,
     },
+  },
+  {
+    "brenoprata10/nvim-highlight-colors",
+    opts = {},
+    config = function(_, opts)
+      require("nvim-highlight-colors").setup(opts)
+    end,
   },
 }

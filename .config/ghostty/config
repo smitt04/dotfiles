@@ -3,7 +3,7 @@
 
 font-size = 14
 font-family = "JetBrainsMono Nerd Font"
-window-colorspace = display-p3
+#window-colorspace = display-p3
 unfocused-split-opacity = 1
 font-feature = -calt
 font-feature = -liga
@@ -12,6 +12,7 @@ font-feature = -dlig
 macos-titlebar-style = tabs
 macos-titlebar-proxy-icon = hidden
 macos-option-as-alt = true
+mouse-shift-capture = false
 
 theme = tokyonight_night
 background = 101016
@@ -24,3 +25,4 @@ maximize = true
 keybind = super+ctrl+f=text:~/.local/scripts/tmux-sessionizer\n
 
 
+keybind = shift+enter=text:\x1b\r

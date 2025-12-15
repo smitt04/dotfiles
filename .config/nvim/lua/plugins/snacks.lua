@@ -11,13 +11,6 @@ return {
             sort_lastused = true,
             hidden = false,
             current = false,
-            -- layout = "ivy", -- vertical layout (input and list at the top, preview below)
-            -- focus = "list", -- open in normal mode for immediate j/k navigation
-            -- height = 0.4, -- smaller overall height for the buffers picker
-            -- matcher = {
-            --   cwd_bonus
-            --   frecency = false,
-            -- },
           })
         end,
         desc = "Search Buffers",
@@ -193,22 +186,6 @@ return {
       scroll = {},
       rename = {},
       bufdelete = {},
-      picker = {
-        matcher = {
-          frecency = true,
-          sort_empty = true,
-          hidden = true,
-        },
-        filter = {
-          cwd = true,
-        },
-        -- formatters = {
-        --   file = {
-        --     filename_first = true, -- display filename before the file path
-        --     truncate = 80,
-        --   },
-        -- },
-      },
       explorer = {},
     },
   },

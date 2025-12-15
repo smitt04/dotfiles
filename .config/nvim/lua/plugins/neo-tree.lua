@@ -6,8 +6,7 @@ return {
   version = "*",
   dependencies = {
     "nvim-lua/plenary.nvim",
-    -- 'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
-    { "echasnovski/mini.icons", opts = {} },
+    { "nvim-mini/mini.icons", opts = {} },
     "MunifTanjim/nui.nvim",
   },
   cmd = "Neotree",
@@ -16,18 +15,18 @@ return {
     { "<leader>nd", ":Neotree document_symbols right<CR>", desc = "NeoTree Document symbols", silent = true },
   },
   opts = {
-    sources = { "filesystem", "buffers", "git_status", "document_symbols" },
+    sources = { "filesystem", "git_status" },
     event_handlers = {
       {
         event = "file_moved",
         handler = function(data)
-          Snacks.rename.on_rename_file(data.source, data.destination)
+          require("Snacks").rename.on_rename_file(data.source, data.destination)
         end,
       },
       {
         event = "file_renamed",
         handler = function(data)
-          Snacks.rename.on_rename_file(data.source, data.destination)
+          require("Snacks").rename.on_rename_file(data.source, data.destination)
         end,
       },
     },
@@ -38,20 +37,6 @@ return {
         hide_gitignored = false,
         never_show = {
           ".DS_Store",
-        },
-      },
-      window = {
-        mappings = {
-          ["\\"] = "close_window",
-          ["e"] = function()
-            vim.api.nvim_exec("Neotree focus filesystem left", true)
-          end,
-          ["b"] = function()
-            vim.api.nvim_exec("Neotree focus buffers left", true)
-          end,
-          ["g"] = function()
-            vim.api.nvim_exec("Neotree focus git_status left", true)
-          end,
         },
       },
     },
