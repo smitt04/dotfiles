@@ -76,12 +76,18 @@ return {
   },
   {
     "sindrets/diffview.nvim",
+    enabled = false,
     opts = {
       enhanced_diff_hl = false,
     },
     config = function(_, opts)
       require("diffview").setup(opts)
     end,
+  },
+  {
+    "esmuellert/codediff.nvim",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    cmd = "CodeDiff",
   },
   {
     "pwntester/octo.nvim",

@@ -27,21 +27,30 @@ return {
           }
         end
       end,
+      formatters = {
+        alloy_fmt = {
+          command = "alloy",
+          args = { "fmt", "$FILENAME" },
+          stdin = true,
+        },
+      },
       formatters_by_ft = {
         lua = { "stylua" },
         go = {},
         javascript = { "prettierd", stop_after_first = true },
         typescript = { "prettierd", stop_after_first = true },
+        pug = { "prettierd", stop_after_first = true },
         markdown = { "prettierd", stop_after_first = true },
         css = { "prettierd", "prettier", stop_after_first = true },
         html = { "prettierd", "prettier", stop_after_first = true },
         json = { "prettierd", "prettier", stop_after_first = true },
         jsonc = { "prettierd", "prettier", stop_after_first = true },
         scss = { "prettierd", "prettier", stop_after_first = true },
-        vue = { "prettierd", stop_after_first = false },
+        vue = { "prettierd", stop_after_first = true },
         graphql = { "prettierd" },
         sh = { "shfmt" },
         sql = { "pg_format" },
+        alloy = { "alloy_fmt" },
       },
     },
   },

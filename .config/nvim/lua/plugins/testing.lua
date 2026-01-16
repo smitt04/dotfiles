@@ -13,9 +13,9 @@ return {
         end,
       },
       {
-        "fredrikaverpil/neotest-golang",
-        -- dir = "~/projects/smitt04/neotest-golang",
-        -- dev = true,
+        -- "fredrikaverpil/neotest-golang",
+        dir = "~/projects/smitt04/neotest-golang",
+        dev = true,
         version = "*",
         dependencies = {
           "andythigpen/nvim-coverage",
@@ -104,6 +104,7 @@ return {
         },
         env = {
           GOEXPERIMENT = "jsonv2",
+          ENV = "test",
         },
         dev_notifications = true,
       }
