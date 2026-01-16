@@ -30,7 +30,7 @@ return {
       formatters = {
         alloy_fmt = {
           command = "alloy",
-          args = { "fmt", "$FILENAME" },
+          args = { "fmt", "--stdin" },
           stdin = true,
         },
       },
