@@ -7,12 +7,26 @@ return {
         {
           name = "Tokyonight Night",
           colorscheme = "tokyonight-night",
-          after = [[ vim.cmd("GhosttyTheme tokyonight_night") ]],
+          after = [[
+            vim.cmd("GhosttyTheme tokyonight_night")
+            vim.cmd("TmuxTheme tokyonight-night")
+          ]],
         },
         {
           name = "Catppuccin Mocha",
           colorscheme = "catppuccin-mocha",
-          after = [[ vim.cmd("GhosttyTheme catppuccin-mocha") ]],
+          after = [[
+            vim.cmd("GhosttyTheme catppuccin-mocha")
+            vim.cmd("TmuxTheme catppuccin-mocha")
+          ]],
+        },
+        {
+          name = "Sonokai",
+          colorscheme = "sonokai",
+          after = [[
+            vim.cmd("GhosttyTheme sonokai")
+            vim.cmd("TmuxTheme sonokai")
+          ]],
         },
       },
       livePreview = true,
@@ -49,36 +63,12 @@ return {
     priority = 1000,
     opts = {
       no_italic = true,
-      term_colors = true,
-      transparent_background = false,
-      styles = {
-        comments = {},
-        conditionals = {},
-        loops = {},
-        functions = {},
-        keywords = {},
-        strings = {},
-        variables = {},
-        numbers = {},
-        booleans = {},
-        properties = {},
-        types = {},
-      },
+      auto_integrations = true,
       color_overrides = {
         mocha = {
-          base = "#000000",
-          mantle = "#000000",
-          crust = "#000000",
-        },
-      },
-      integrations = {
-        telescope = {
-          enabled = true,
-          style = "nvchad",
-        },
-        dropbar = {
-          enabled = true,
-          color_mode = true,
+          base = "#161621", -- default #1e1e2e, 30% darker
+          mantle = "#12121b", -- default #181825, 30% darker
+          crust = "#0d0d14", -- default #11111b, 30% darker
         },
       },
     },
@@ -112,6 +102,18 @@ return {
     config = function(_, opts)
       require("tokyodark").setup(opts) -- calling setup is optional
       vim.cmd([[colorscheme tokyodark]])
+    end,
+  },
+  {
+    "sainnhe/sonokai",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      -- Optionally configure and load the colorscheme
+      -- directly inside the plugin declaration.
+      vim.g.sonokai_enable_italic = false
+      vim.g.sonokai_style = "atlantis"
+      vim.cmd.colorscheme("sonokai")
     end,
   },
 }

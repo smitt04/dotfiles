@@ -20,13 +20,13 @@ return {
       {
         event = "file_moved",
         handler = function(data)
-          require("Snacks").rename.on_rename_file(data.source, data.destination)
+          require("snacks").rename.on_rename_file(data.source, data.destination)
         end,
       },
       {
         event = "file_renamed",
         handler = function(data)
-          require("Snacks").rename.on_rename_file(data.source, data.destination)
+          require("snacks").rename.on_rename_file(data.source, data.destination)
         end,
       },
     },

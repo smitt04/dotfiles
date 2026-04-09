@@ -1,6 +1,7 @@
 local ensureInstalled = {
   "bash",
   "css",
+  "dockerfile",
   "gitcommit",
   "go",
   "gomod",
@@ -12,9 +13,9 @@ local ensureInstalled = {
   "javascript",
   "json",
   "lua",
-  "makefile",
   "markdown",
   "markdown_inline",
+  "nginx",
   "proto",
   "pug",
   "query",
@@ -30,16 +31,10 @@ local ensureInstalled = {
   "yaml",
 }
 
-local ignore_filetypes = {
-  "checkhealth",
-  "lazy",
-  "mason",
-  "snacks_dashboard",
-  "snacks_notif",
-  "snacks_win",
-}
-
 return {
+  {
+    "JoosepAlviste/nvim-ts-context-commentstring",
+  },
   {
     "nvim-treesitter/nvim-treesitter",
     lazy = false,
@@ -109,7 +104,7 @@ return {
         group = group,
         desc = "Enable treesitter highlighting and indentation (non-blocking)",
         callback = function(event)
-          if vim.tbl_contains(ignore_filetypes, event.match) then
+          if not vim.tbl_contains(ensureInstalled, event.match) then
             return
           end
 

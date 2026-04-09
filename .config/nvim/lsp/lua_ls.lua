@@ -1,18 +1,15 @@
 return {
   settings = {
-    format = {
-      enable = false, -- let conform handle the formatting
-    },
     Lua = {
+      format = {
+        enable = false, -- let conform handle the formatting
+      },
       completion = {
         callSnippet = "Replace",
       },
       runtime = {
         version = "LuaJIT",
       },
-      -- diagnostics = {
-      --   globals = { "Snacks" },
-      -- },
       -- Make the server aware of Neovim runtime files
       workspace = {
         checkThirdParty = false,

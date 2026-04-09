@@ -3,7 +3,7 @@
 
 font-size = 14
 font-family = "JetBrainsMono Nerd Font"
-#window-colorspace = display-p3
+# window-colorspace = display-p3
 unfocused-split-opacity = 1
 font-feature = -calt
 font-feature = -liga
@@ -14,10 +14,10 @@ macos-titlebar-proxy-icon = hidden
 macos-option-as-alt = true
 mouse-shift-capture = false
 
-theme = tokyonight_night
-background = 101016
-background-opacity = 0.96
-background-blur-radius = 40
+theme = catppuccin-mocha
+# background = 161621
+# background-opacity = 0.96
+# background-blur-radius = 40
 
 mouse-hide-while-typing = true
 maximize = true

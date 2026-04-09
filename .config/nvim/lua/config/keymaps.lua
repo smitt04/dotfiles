@@ -20,6 +20,16 @@ map("i", "<M-b>", "<C-o>b", { desc = "Move cursor back one word", noremap = true
 map("i", "<M-f>", "<C-o>w", { desc = "Move cursor forward one word", noremap = true })
 map("n", "<M-f>", "w", { desc = "Move cursor forward one word", noremap = true })
 
+-- Move lines/selections (replaces mini.move)
+map("n", "<M-j>", "<cmd>move .+1<cr>==")
+map("n", "<M-k>", "<cmd>move .-2<cr>==")
+map("n", "<M-h>", "<<")
+map("n", "<M-l>", ">>")
+map("v", "<M-j>", ":move '>+1<cr>gv=gv")
+map("v", "<M-k>", ":move '<-2<cr>gv=gv")
+map("v", "<M-h>", "<gv")
+map("v", "<M-l>", ">gv")
+
 -- Execute lua
 map("n", "<leader>x", ":.lua<CR>")
 map("v", "<leader>x", ":lua<CR>")
@@ -35,3 +45,4 @@ map("v", "<leader>x", ":lua<CR>")
 -- )
 -- map("n", "<leader>bd", ":lua Snacks.bufdelete.delete()<CR>", { desc = "[B]uffer [d]elete - Close the current buffer" })
 map("n", "gb", ":BufferLinePick<CR>")
+map("n", "tt", ":Themery<CR>")

@@ -16,6 +16,20 @@ return {
         desc = "Search Buffers",
       },
       {
+        "<leader>s<space>",
+        function()
+          Snacks.picker.resume()
+        end,
+        desc = "Resume",
+      },
+      {
+        "<leader>s/",
+        function()
+          Snacks.picker.search_history()
+        end,
+        desc = "Search History",
+      },
+      {
         "<leader>gi",
         function()
           Snacks.picker.gh_issue()
@@ -49,7 +63,7 @@ return {
           require("snacks").picker.grep({
             cmd = "rg",
             hidden = true,
-            ignored = true,
+            ignored = false,
           })
         end,
         desc = "[S]earch [G]rep",

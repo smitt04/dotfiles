@@ -29,6 +29,7 @@ o.undodir        = vim.fn.stdpath("data") .. "/undodir" -- set undo directory
 o.undofile       = true -- enable/disable undo file creation
 o.undolevels     = 1000 -- number of changes that can be undone
 o.updatetime     = 250 -- How often to update swap file
+o.winborder      = "rounded" -- rounded borders on all floating windows
 o.fillchars      = o.fillchars + 'diff:╱' -- Set diagonal fillchar for diffs
 o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 -- o.sessionoptions = "buffers,curdir,folds,globals,tabpages,winpos,winsize"

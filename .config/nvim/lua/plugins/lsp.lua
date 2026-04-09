@@ -1,40 +1,45 @@
--- INFO:List of formatters to install via Mason
-local formatters = {
-  "goimports",
-}
-
--- INFO:List of linters to install via Mason
-local linters = {
-  "golangci_lint_ls",
-  "markdownlint",
-  "eslint",
-}
-
--- INFO:List of language servers to install & setup via Mason.
--- NOTE: These should be nvim-lspconfig server names that are *also* supported by Mason for automatic server setup.
--- Any and all server settings are overriden via the lsp/ folder.
-local language_servers = {
-  "bashls",
-  "buf_ls",
-  "cssls",
-  "dockerls",
+-- Mason registry package names
+local mason_packages = {
+  -- Language servers
+  "bash-language-server",
+  "buf",
+  "css-lsp",
+  "dockerfile-language-server",
   "ghostty-ls",
   "gopls",
-  "graphql",
   "graphql-language-service-cli",
-  "html",
-  "lua_ls",
-  "postgres_lsp",
+  "html-lsp",
+  "json-lsp",
+  "lua-language-server",
+  "postgres-language-server",
   "pug-lsp",
-  "tailwindcss",
-  "terraformls",
-  "tofu_ls",
+  "tailwindcss-language-server",
+  "terraform-ls",
+  "tofu-ls",
   "vtsls",
-  "vue_ls",
-  "yamlls",
+  "vue-language-server",
+  "yaml-language-server",
+  -- LSP-based linters
+  "eslint-lsp",
+  "golangci-lint-langserver",
+  -- Formatters
+  "goimports",
+  "markdownlint",
 }
 
-local allMasonPkgs = vim.iter({ language_servers, linters, formatters }):flatten():totable()
+-- lspconfig server names to activate
+local lsp_servers = {
+  "bashls", "buf_ls", "cssls", "dockerls",
+  "eslint",
+  "ghostty",          -- Mason: ghostty-ls
+  "golangci_lint_ls",
+  "gopls",
+  "graphql",          -- Mason: graphql-language-service-cli
+  "html", "jsonls", "lua_ls",
+  "postgres_lsp",
+  "tailwindcss", "terraformls", "tofu_ls",
+  "vtsls", "vue_ls", "yamlls",
+}
 
 return {
   {
@@ -50,24 +55,19 @@ return {
         },
       },
     },
-    opts = { ensure_installed = allMasonPkgs },
+    opts = { ensure_installed = mason_packages },
   },
   {
-    "williamboman/mason-lspconfig.nvim",
+    "neovim/nvim-lspconfig",
     dependencies = {
-      {
-        "neovim/nvim-lspconfig",
-
-        -- Useful status updates for LSP.
-        { "j-hui/fidget.nvim", event = "LspAttach", opts = {} },
-
-        -- Allows extra capabilities provided by blink.cmp
-        "saghen/blink.cmp",
-      },
+      { "j-hui/fidget.nvim", event = "LspAttach", opts = {} },
+      "saghen/blink.cmp",
     },
-    opts = {
-      automatic_enable = allMasonPkgs,
-    },
+    config = function()
+      for _, server in ipairs(lsp_servers) do
+        vim.lsp.enable(server)
+      end
+    end,
   },
   { "mkindberg/ghostty-ls", config = true },
 }
