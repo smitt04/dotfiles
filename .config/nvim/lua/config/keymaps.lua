@@ -46,3 +46,12 @@ map("v", "<leader>x", ":lua<CR>")
 -- map("n", "<leader>bd", ":lua Snacks.bufdelete.delete()<CR>", { desc = "[B]uffer [d]elete - Close the current buffer" })
 map("n", "gb", ":BufferLinePick<CR>")
 map("n", "tt", ":Themery<CR>")
+
+-- Send @file#Lx-Ly reference to the claude pane in the current tmux session
+map("n", "<leader>ac", function()
+  require("config.claude_tmux").send_ref({ visual = false })
+end, { desc = "[A]I: send [c]laude file reference" })
+map("x", "<leader>ac", function()
+  vim.cmd('normal! \27') -- leave visual so '< and '> are set
+  require("config.claude_tmux").send_ref({ visual = true })
+end, { desc = "[A]I: send [c]laude file reference" })
