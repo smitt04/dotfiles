@@ -49,9 +49,16 @@ map("n", "tt", ":Themery<CR>")
 
 -- Send @file#Lx-Ly reference to the claude pane in the current tmux session
 map("n", "<leader>ac", function()
-  require("config.claude_tmux").send_ref({ visual = false })
+  require("config.ai_tmux").send_ref({ visual = false })
 end, { desc = "[A]I: send [c]laude file reference" })
 map("x", "<leader>ac", function()
   vim.cmd('normal! \27') -- leave visual so '< and '> are set
-  require("config.claude_tmux").send_ref({ visual = true })
+  require("config.ai_tmux").send_ref({ visual = true })
 end, { desc = "[A]I: send [c]laude file reference" })
+map("n", "<leader>ay", function()
+  require("config.ai_tmux").send_snippet({ visual = false })
+end, { desc = "[A]I: [y]ank snippet to AI pane" })
+map("x", "<leader>ay", function()
+  vim.cmd('normal! \27')
+  require("config.ai_tmux").send_snippet({ visual = true })
+end, { desc = "[A]I: [y]ank snippet to AI pane" })
