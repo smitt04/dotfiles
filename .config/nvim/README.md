@@ -12,8 +12,6 @@ These are other tools that should be installed to help with some tools inside of
 
 ![Screenshot of File Browser](./screenshots/file-browser.png)
 
-![Screenshot of neotree](./screenshots/neo-tree.png)
-
 ![Screenshot of code-refs](./screenshots/code-refs.png)
 
 ![Screenshot of tests](./screenshots/tests.png)
