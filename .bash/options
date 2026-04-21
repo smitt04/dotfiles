@@ -1,0 +1,14 @@
+# shellcheck shell=bash
+# Shell behaviour: vi mode, history, shopt, ulimit
+
+set -o vi
+
+HISTCONTROL=ignoreboth:erasedups
+shopt -s histappend
+HISTFILESIZE=1000000
+HISTSIZE=1000000
+HISTIGNORE='ls:bg:fg:history'
+HISTTIMEFORMAT='%F %T '
+PROMPT_COMMAND='history -a'
+
+ulimit -n 65536

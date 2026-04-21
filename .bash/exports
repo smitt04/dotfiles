@@ -1,0 +1,61 @@
+# shellcheck shell=bash
+# Safe environment variables and PATH entries
+
+export EDITOR="nvim"
+export BASH_SILENCE_DEPRECATION_WARNING=1
+export XDG_CONFIG_HOME="$HOME/.config"
+
+# Go
+export GOEXPERIMENT=jsonv2
+GOPATH="$(go env GOPATH)"
+export PATH="$GOPATH/bin:$PATH"
+
+# Pulumi
+export PATH="$PATH:$HOME/.pulumi/bin"
+
+# Krew (kubectl plugin manager)
+export PATH="${PATH}:${HOME}/.krew/bin"
+
+# Flutter / Android
+export PATH="${PATH}:/usr/local/flutter/bin"
+export PATH="${PATH}:/usr/local/android_sdk/cmdline-tools/latest/bin"
+
+# PlatformIO
+export PATH="${PATH}:$HOME/.platformio/penv/bin"
+
+# Google Cloud SDK
+export PATH="${PATH}:$HOME/google-cloud-sdk/bin"
+
+# Homebrew
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+# MacPorts
+export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+
+# pipx / local bin
+export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/bin"
+export PATH="$PATH:/usr/local/bin"
+
+# Microsandbox
+export PATH="$HOME/.microsandbox/bin:$PATH"
+export DYLD_LIBRARY_PATH="$HOME/.microsandbox/lib${DYLD_LIBRARY_PATH:+:$DYLD_LIBRARY_PATH}"
+
+# Kubernetes
+export KUBECONFIG="$HOME/.kube/config:$HOME/.kube/cluster.hsdp.io:$HOME/.kube/cmvpn-cluster"
+
+# AWS
+export AWS_REGION=us-west-2
+export AWS_PROFILE=cmvpn-development
+
+# Claude / Bedrock
+export CLAUDE_CODE_USE_MANTLE=1
+export CLAUDE_CODE_MAX_OUTPUT_TOKENS=32768
+export MAX_THINKING_TOKENS=20480
+
+# Goose
+export GOOSE_RECIPE_PATH="$HOME/.goose/recipes"
+
+# Node.js — trust mkcert certificates
+export NODE_EXTRA_CA_CERTS="$HOME/Library/Application Support/mkcert/rootCA.pem"

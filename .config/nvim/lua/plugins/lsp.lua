@@ -12,6 +12,7 @@ local mason_packages = {
   "json-lsp",
   "lua-language-server",
   "postgres-language-server",
+  "rust-analyzer",
   "pug-lsp",
   "tailwindcss-language-server",
   "terraform-ls",
@@ -29,16 +30,26 @@ local mason_packages = {
 
 -- lspconfig server names to activate
 local lsp_servers = {
-  "bashls", "buf_ls", "cssls", "dockerls",
+  "bashls",
+  "buf_ls",
+  "cssls",
+  "dockerls",
   "eslint",
-  "ghostty",          -- Mason: ghostty-ls
+  "ghostty", -- Mason: ghostty-ls
   "golangci_lint_ls",
   "gopls",
-  "graphql",          -- Mason: graphql-language-service-cli
-  "html", "jsonls", "lua_ls",
+  "graphql", -- Mason: graphql-language-service-cli
+  "html",
+  "jsonls",
+  "lua_ls",
   "postgres_lsp",
-  "tailwindcss", "terraformls", "tofu_ls",
-  "vtsls", "vue_ls", "yamlls",
+  "rust_analyzer",
+  "tailwindcss",
+  "terraformls",
+  "tofu_ls",
+  "vtsls",
+  "vue_ls",
+  "yamlls",
 }
 
 return {

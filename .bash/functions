@@ -1,0 +1,162 @@
+# shellcheck shell=bash
+# Shell functions
+
+# --- Kubernetes ---
+
+kube-tf-dev() {
+  kubectl config use-context do-sfo3-tf-k8s-dev
+  kubectl config set-context --current --namespace techfolk
+}
+
+kube-tf-prod() {
+  kubectl config use-context do-nyc3-tf-k8s-prod
+  kubectl config set-context --current --namespace techfolk
+}
+
+kube-cmvpn-dev() {
+  pushd ~/projects/stl/cmvpn-infra/eks || return
+  # shellcheck source=/dev/null
+  source update-config-map.sh
+  kubectl config set-context --current --namespace cmvpn
+  popd || return
+}
+
+kube-edge() {
+  docker run -it --rm -v ~/.kube:/home/hsdp/.kube docker.na1.hsdp.io/kubernetes/kube-auth:latest make
+  kubectl config set-context "$1".cluster.hsdp.io --namespace=hsdp-stl
+  kubectl config use-context "$1".cluster.hsdp.io
+}
+
+kcm() {
+  if [[ "$1" == "prod" || "$1" == "testing" || "$1" == "dev" || "$1" == "stage" || "$1" == "china" ]]; then
+    role=""
+    if [[ "$1" == "china" ]]; then
+      role="norole"
+    fi
+    echo "Logging into $1 CMVPN EKS Cluster"
+    pushd "$HOME/projects/stl/cmvpn-terafform/live/$1/eks/" || return
+    # shellcheck source=/dev/null
+    source ./auth.sh "$role"
+    popd || return
+  else
+    echo "pass in one of: prod|testing|stage|dev"
+  fi
+}
+
+# --- AWS ---
+
+ec2_serial() {
+  aws ec2-instance-connect send-serial-console-ssh-public-key --instance-id "$1" --serial-port 0 --ssh-public-key file://"$HOME"/.ssh/ksmithson.pub --region "$2"
+  ssh -i ~/.ssh/ksmithson.key "$1.port0@serial-console.ec2-instance-connect.$2.aws"
+}
+
+# --- Databases ---
+
+pg_edge_dev() {
+  ssh -L 5432:edge-api-2.cilrovwxfdzw.us-west-2.rds.amazonaws.com:5432 cmvpn-development-na3
+}
+
+# --- Networking ---
+
+ports() {
+  sudo lsof -i -P | grep LISTEN | grep ":$1"
+}
+
+# --- Utilities ---
+
+uuid() {
+  uuidgen | tr -d '\n' | tr '[:upper:]' '[:lower:]'
+}
+
+uuidcopy() {
+  id=$(uuid)
+  echo -n "$id" | pbcopy
+  echo -n "$id Copied"
+}
+
+rand() {
+  LENGTH=$1
+
+  if [[ -z "$LENGTH" || ! "$LENGTH" =~ ^[0-9]+$ ]]; then
+    echo "Usage: $0 <length>"
+    exit 1
+  fi
+  openssl rand -base64 $((LENGTH * 3 / 4)) | tr -dc 'A-Za-z0-9' | head -c "$LENGTH"
+}
+
+randcopy() {
+  r=$(rand "$1")
+  echo -n "$r" | pbcopy
+  echo -n "$r Copied"
+}
+
+# --- Git ---
+
+gc() {
+  local TMP_FILE BRANCH STAT DIFF PROMPT EDITOR_CMD
+  TMP_FILE="$(mktemp)"
+
+  BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+  STAT=$(git diff --cached --stat | grep -v vendor)
+  DIFF=$(git diff --cached | grep -v vendor | head -c 50000)
+
+  if [[ -z "$STAT" ]]; then
+    echo "No staged changes found. Use git add to stage changes first."
+    rm "$TMP_FILE"
+    return 1
+  fi
+
+  PROMPT="Generate a commit message for these file changes.
+
+Branch: $BRANCH
+
+Staged files:
+$STAT
+
+Diff:
+$DIFF
+
+Instructions:
+- Start with a summary in imperative mood.
+- Explain the why behind changes, when possible. Don't make anything up.
+- If changes are small try and keep it to a single line, only add multiple points if not possible to summarize.
+- Use bullet points for multiple changes, except when the why is attached to item.
+- Try to get the Ticket Number from the branch name in the form of Project-Number, i.e VPN-1234.
+- If you can't get ticket number then omit it.
+- Do not wrap your response in triple backticks.
+- Response should be the commit message only, no explanations as it will be passed directly to git.
+- The body and footer are truly optional and prefer to not have them if possible.
+- Format: <Ticket Number> <Action> <Subject>
+
+    [optional body]
+
+    [optional footer(s)]"
+
+  claude --model us.anthropic.claude-haiku-4-5-20251001-v1:0 -p "$PROMPT" >"$TMP_FILE"
+
+  EDITOR_CMD="${GIT_EDITOR:-${EDITOR:-nvim}}"
+  GIT_EDITOR="$EDITOR_CMD" git commit --edit -F "$TMP_FILE"
+
+  rm "$TMP_FILE"
+}
+
+# --- Sandbox ---
+
+sandbox-claude() { ~/.config/sandbox-exec/run-sandboxed.sh claude "$@"; }
+sandbox-codex()  { ~/.config/sandbox-exec/run-sandboxed.sh codex "$@"; }
+
+msb-sandbox() {
+  local repo
+  local name
+  repo="$(pwd)"
+  name=$(basename "$repo")
+
+  msb run --name "$name" -c 4 -m 8G \
+    -v "$repo":"/${name}" \
+    -v claude-data:/data/claude \
+    -w "/${name}" \
+    -e CLAUDE_CODE_USE_BEDROCK \
+    --replace \
+    --secret AWS_BEARER_TOKEN_BEDROCK="$AWS_BEARER_TOKEN_BEDROCK"@api.anthropic.com \
+    docker.local.hsdp.io/claude:local "$@"
+}

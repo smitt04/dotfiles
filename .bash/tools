@@ -1,0 +1,56 @@
+# shellcheck shell=bash
+# Tool initializations
+# Note: SDKMAN must be initialized last — keep it at the bottom of this file.
+
+# Homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Starship prompt
+eval "$(starship init bash)"
+
+# Rust / Cargo
+# shellcheck source=/dev/null
+. "$HOME/.cargo/env"
+
+# fzf
+# shellcheck source=/dev/null
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# Bash completions (MacPorts)
+if [ -f /opt/local/share/bash-completion/completions/git ]; then
+  # shellcheck source=/dev/null
+  . /opt/local/share/bash-completion/completions/git
+fi
+
+# Bash completions (Homebrew)
+# shellcheck source=/dev/null
+[[ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]] && . "$(brew --prefix)/etc/profile.d/bash_completion.sh"
+
+# task (go-task) completions
+eval "$(task --completion bash)"
+
+# wt (Warp Terminal)
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init bash)"; fi
+
+# Docker Desktop
+# shellcheck source=/dev/null
+source "$HOME/.docker/init-bash.sh" || true
+
+# OrbStack
+# shellcheck source=/dev/null
+source ~/.orbstack/shell/init.bash 2>/dev/null || :
+
+# Google Cloud SDK
+if [ -f "$HOME/google-cloud-sdk/path.bash.inc" ]; then
+  # shellcheck source=/dev/null
+  . "$HOME/google-cloud-sdk/path.bash.inc"
+fi
+if [ -f "$HOME/google-cloud-sdk/completion.bash.inc" ]; then
+  # shellcheck source=/dev/null
+  . "$HOME/google-cloud-sdk/completion.bash.inc"
+fi
+
+# SDKMAN — must be last
+export SDKMAN_DIR="$HOME/.sdkman"
+# shellcheck source=/dev/null
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
