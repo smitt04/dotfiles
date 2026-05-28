@@ -37,6 +37,18 @@ kcm() {
     pushd "$HOME/projects/stl/cmvpn-terafform/live/$1/eks/" || return
     # shellcheck source=/dev/null
     source ./auth.sh "$role"
+    if [[ -n "$CLUSTER_ARN" ]]; then
+      # Merge the per-cluster kubeconfig auth.sh created into ~/.kube/config
+      # and rename the long ARN context to a short name.
+      local merged="$HOME/.kube/config"
+      KUBECONFIG="$merged:$KUBECONFIG" kubectl config view --flatten >"$merged.tmp" &&
+        mv "$merged.tmp" "$merged"
+      export KUBECONFIG="$merged"
+      export KUBE_CONFIG_PATH="$merged"
+      kubectl config rename-context "$CLUSTER_ARN" "cmvpn-$1" 2>/dev/null
+      kubectl config use-context "cmvpn-$1"
+      export KUBE_CTX="cmvpn-$1"
+    fi
     popd || return
   else
     echo "pass in one of: prod|testing|stage|dev"
@@ -132,7 +144,7 @@ Instructions:
 
     [optional footer(s)]"
 
-  claude --model us.anthropic.claude-haiku-4-5-20251001-v1:0 -p "$PROMPT" >"$TMP_FILE"
+  omp --model us.anthropic.claude-haiku-4-5-20251001-v1:0 -p "$PROMPT" >"$TMP_FILE"
 
   EDITOR_CMD="${GIT_EDITOR:-${EDITOR:-nvim}}"
   GIT_EDITOR="$EDITOR_CMD" git commit --edit -F "$TMP_FILE"
@@ -143,7 +155,7 @@ Instructions:
 # --- Sandbox ---
 
 sandbox-claude() { ~/.config/sandbox-exec/run-sandboxed.sh claude "$@"; }
-sandbox-codex()  { ~/.config/sandbox-exec/run-sandboxed.sh codex "$@"; }
+sandbox-codex() { ~/.config/sandbox-exec/run-sandboxed.sh codex "$@"; }
 
 msb-sandbox() {
   local repo

@@ -1,0 +1,8 @@
+logs/
+natives/
+plugins/node_modules
+agent/sessions
+agent/terminal-sessions
+agent/agent.db*
+agent/history.db*
+agent/models.db*

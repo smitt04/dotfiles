@@ -1,0 +1,40 @@
+{
+  "$schema": "https://raw.githubusercontent.com/can1357/oh-my-pi/main/packages/coding-agent/src/config/mcp-schema.json",
+  "mcpServers": {
+    "praxis": {
+      "command": "/Users/ksmithson/.local/bin/praxis-mcp",
+      "enabled": false
+    },
+    "stl-infra-prod": {
+      "type": "stdio",
+      "command": "/usr/local/bin/stl-infra-mcp",
+      "env": {
+        "DEBUG": "1",
+        "KUBE_CONTEXT": "cmvpn-prod",
+        "HOME": "/Users/ksmithson",
+        "PATH": "/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin",
+        "LOG_FILE": "/tmp/stl-infra-prod.log",
+        "AWS_CONFIG_FILE": "/Users/ksmithson/.aws/config",
+        "AWS_SHARED_CREDENTIALS_FILE": "/Users/ksmithson/.aws/credentials"
+      }
+    },
+    "stl-infra-dev": {
+      "type": "stdio",
+      "command": "/usr/local/bin/stl-infra-mcp",
+      "env": {
+        "DEBUG": "1",
+        "KUBE_CONTEXT": "cmvpn-dev",
+        "LOG_FILE": "/tmp/stl-infra-dev.log",
+        "AWS_PROFILE": "cmvpn-development",
+        "AWS_ACCESS_KEY_ID": "!true",
+        "AWS_SECRET_ACCESS_KEY": "!true"
+      }
+    }
+  },
+  "disabledServers": [
+    "atlassian:atlassian",
+    "grafana-dev",
+    "grafana-prod",
+    "stl-infra"
+  ]
+}
