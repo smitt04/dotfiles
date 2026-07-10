@@ -4,6 +4,11 @@
       "version": "1.0.0",
       "enabledFeatures": null,
       "enabled": true
+    },
+    "superpowers": {
+      "version": "6.0.3",
+      "enabledFeatures": null,
+      "enabled": true
     }
   },
   "settings": {}

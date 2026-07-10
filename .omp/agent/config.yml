@@ -1,10 +1,20 @@
 modelRoles: 
-  default: openai-codex/gpt-5.5:medium
+  default: amazon-bedrock/us.anthropic.claude-sonnet-5:medium
+  slow: amazon-bedrock/us.anthropic.claude-opus-4-8
+  plan: amazon-bedrock/us.anthropic.claude-opus-4-8:high
+  designer: amazon-bedrock/us.anthropic.claude-opus-4-8:medium
+enabledModels: 
+  - openai-codex/gpt-5.5
+  - amazon-bedrock/us.anthropic.claude-haiku-4-5-20251001-v1:0
+  - amazon-bedrock/us.anthropic.claude-sonnet-4-6
+  - amazon-bedrock/us.anthropic.claude-opus-4-7
+  - amazon-bedrock/us.anthropic.claude-opus-4-8
+  - amazon-bedrock/us.anthropic.claude-fable-5
+  - amazon-bedrock/us.anthropic.claude-sonnet-5
 theme: 
   dark: titanium
 statusLine: 
   preset: compact
-lastChangelogVersion: 15.1.3
 memory: 
   backend: hindsight
 hindsight: 
@@ -18,3 +28,12 @@ edit:
   mode: hashline
 display: 
   showTokenUsage: false
+symbolPreset: nerd
+setupVersion: 1
+hideThinkingBlock: true
+dev: 
+  autoqa: 
+    consent: granted
+providers: 
+  streamIdleTimeoutSeconds: 300
+  streamFirstEventTimeoutSeconds: 180

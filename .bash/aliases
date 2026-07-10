@@ -6,3 +6,4 @@ alias vi=nvim
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias lzd='lazydocker'
 alias kcm=kcm
+alias fj="fj -H https://git.edge-dev.hsp.philips.com"

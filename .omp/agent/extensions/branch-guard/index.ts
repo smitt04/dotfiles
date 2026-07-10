@@ -15,10 +15,60 @@ const PROTECTED_BRANCHES = new Set(["development", "master", "main"]);
 // e.g. VPN-1234, INFRA-99, JIRA-4200
 const TICKET_RE = /^[A-Z]+-\d+/;
 
+type GuardMode = "enforce" | "warn" | "off";
+
+interface GuardConfig {
+  enabled?: boolean;
+  mode?: GuardMode;
+}
+
+interface GuardSettings {
+  mode: GuardMode;
+  error?: string;
+}
+
 interface BranchState {
   branch: string;
   hasTicket: boolean;
   checked: boolean;
+}
+
+function isGuardMode(value: unknown): value is GuardMode {
+  return value === "enforce" || value === "warn" || value === "off";
+}
+
+function modeFromEnv(value: string | undefined): GuardMode | undefined {
+  if (!value) return undefined;
+
+  const normalized = value.toLowerCase();
+  if (normalized === "0" || normalized === "false") return "off";
+  if (normalized === "1" || normalized === "true") return "enforce";
+  return isGuardMode(normalized) ? normalized : undefined;
+}
+
+async function loadSettings(cwd: string): Promise<GuardSettings> {
+  if (Bun.env.OMP_BRANCH_GUARD_BYPASS === "1") {
+    return { mode: "off" };
+  }
+
+  const envMode = modeFromEnv(Bun.env.OMP_BRANCH_GUARD);
+  if (envMode) return { mode: envMode };
+
+  const configPath = `${cwd}/.omp/branch-guard.json`;
+  const configFile = Bun.file(configPath);
+  if (!(await configFile.exists())) return { mode: "enforce" };
+
+  try {
+    const config = JSON.parse(await configFile.text()) as GuardConfig;
+    if (config.enabled === false) return { mode: "off" };
+    if (isGuardMode(config.mode)) return { mode: config.mode };
+    return { mode: "enforce" };
+  } catch (error) {
+    return {
+      mode: "enforce",
+      error: error instanceof Error ? error.message : String(error),
+    };
+  }
 }
 
 /** Run `git branch --show-current` in cwd. Returns empty string on failure. */
@@ -56,8 +106,17 @@ export default function branchGuard(pi: ExtensionAPI): void {
   }
 
   pi.on("session_start", async (_event, ctx) => {
-    refresh(ctx.cwd);
+    const settings = await loadSettings(ctx.cwd);
+    if (settings.mode === "off") return;
 
+    if (settings.error) {
+      ctx.ui.notify(
+        `⚠️  Branch guard config could not be read; enforcing defaults: ${settings.error}`,
+        "warning",
+      );
+    }
+
+    refresh(ctx.cwd);
     if (!state.checked) return;
 
     if (PROTECTED_BRANCHES.has(state.branch)) {
@@ -76,9 +135,12 @@ export default function branchGuard(pi: ExtensionAPI): void {
   pi.on("tool_call", async (event, ctx) => {
     if (!FILE_MUTATION_TOOLS.has(event.toolName)) return;
 
+    const settings = await loadSettings(ctx.cwd);
+    // Only enforce mode blocks tool calls; warn-mode notices fire at session start.
+    if (settings.mode !== "enforce") return;
+
     // Re-check on every call in case the user switched branches mid-session.
     refresh(ctx.cwd);
-
     if (!state.checked) return;
 
     if (PROTECTED_BRANCHES.has(state.branch)) {
