@@ -2,6 +2,32 @@
 # Shell functions
 
 # --- Kubernetes ---
+kctx() {
+  local contexts current selected
+
+  if ! command -v kubectl >/dev/null 2>&1; then
+    echo "kctx: kubectl is not installed" >&2
+    return 1
+  fi
+
+  if ! command -v fzf >/dev/null 2>&1; then
+    echo "kctx: fzf is not installed" >&2
+    return 1
+  fi
+
+  contexts=$(kubectl config get-contexts -o name) || return
+  if [[ -z "$contexts" ]]; then
+    echo "kctx: no Kubernetes contexts found" >&2
+    return 1
+  fi
+
+  current=$(kubectl config current-context 2>/dev/null || true)
+  selected=$(printf '%s\n' "$contexts" | fzf --prompt="Kubernetes context (${current:-none})> ") || return 0
+  [[ -n "$selected" ]] || return 0
+
+  kubectl config use-context "$selected"
+}
+
 
 kube-tf-dev() {
   kubectl config use-context do-sfo3-tf-k8s-dev
