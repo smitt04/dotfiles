@@ -11,6 +11,7 @@ agent/blobs/
 agent/cache/
 agent/last-changelog-version
 cache/github-cache.db*
+sandbox
 run/
 autoqa.db*
 stats.db*
