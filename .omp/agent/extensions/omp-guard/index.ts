@@ -3,6 +3,15 @@ import { homedir } from "node:os";
 import * as path from "node:path";
 import { promises as fs } from "node:fs";
 
+// Directories always trusted, regardless of session root. Edit this list to
+// add always-allowed paths (`~` is expanded relative to $HOME).
+const ALLOWLIST: string[] = [
+  path.join(homedir(), ".omp"),
+  path.join(homedir(), "go"),
+  "/tmp",
+  "/var/folders",
+];
+
 // Tools whose inputs can name filesystem paths. Anything not in this record
 // passes through unguarded (custom/MCP tools, browser, task, etc.).
 const PATH_TOOLS: Record<string, true> = {
@@ -20,10 +29,20 @@ const PATH_TOOLS: Record<string, true> = {
 // `ast_grep` are checked for explicit .env targets pre-execution; `grep`/
 // `ast_grep` are also post-filtered in case a directory/glob scope
 // incidentally matched inside a .env file.
-const ENV_CONTENT_TOOLS: Record<string, true> = { read: true, grep: true, ast_grep: true };
+const ENV_CONTENT_TOOLS: Record<string, true> = {
+  read: true,
+  grep: true,
+  ast_grep: true,
+};
 
 // `.env` / `.env.<name>` are blocked; common non-secret templates are exempt.
-const ENV_ALLOWED_SUFFIXES = new Set(["example", "sample", "template", "dist", "vault"]);
+const ENV_ALLOWED_SUFFIXES = new Set([
+  "example",
+  "sample",
+  "template",
+  "dist",
+  "vault",
+]);
 
 function isBlockedEnvFile(name: string): boolean {
   const base = path.basename(name);
@@ -35,19 +54,50 @@ function isBlockedEnvFile(name: string): boolean {
 // Bash verbs that print/consume a file's contents (vs. metadata-only ops like
 // `ls`/`test`/`stat`, or write-only ops like `cp DEST`/`touch`).
 const BASH_CONTENT_VERBS: Record<string, true> = {
-  cat: true, less: true, more: true, head: true, tail: true, bat: true,
-  vim: true, vi: true, nvim: true, nano: true, emacs: true, source: true,
-  ".": true, xxd: true, od: true, hexdump: true, strings: true, awk: true,
-  sed: true, jq: true, base64: true, tr: true, dd: true, python: true,
-  python3: true, node: true, bun: true, ruby: true, perl: true, tee: true,
-  grep: true, rg: true, eval: true, bash: true, sh: true, zsh: true,
+  cat: true,
+  less: true,
+  more: true,
+  head: true,
+  tail: true,
+  bat: true,
+  vim: true,
+  vi: true,
+  nvim: true,
+  nano: true,
+  emacs: true,
+  source: true,
+  ".": true,
+  xxd: true,
+  od: true,
+  hexdump: true,
+  strings: true,
+  awk: true,
+  sed: true,
+  jq: true,
+  base64: true,
+  tr: true,
+  dd: true,
+  python: true,
+  python3: true,
+  node: true,
+  bun: true,
+  ruby: true,
+  perl: true,
+  tee: true,
+  grep: true,
+  rg: true,
+  eval: true,
+  bash: true,
+  sh: true,
+  zsh: true,
 };
 
 function stripQuotes(token: string): string {
   if (token.length >= 2) {
     const first = token[0];
     const last = token[token.length - 1];
-    if ((first === '"' && last === '"') || (first === "'" && last === "'")) return token.slice(1, -1);
+    if ((first === '"' && last === '"') || (first === "'" && last === "'"))
+      return token.slice(1, -1);
   }
   return token.replace(/^[<>]+/, "");
 }
@@ -96,7 +146,9 @@ interface GuardState {
 
 /** Strip a trailing inline selector (":50-100", ":raw", ":raw:1-2", ...) off a path string. */
 function stripInlineSelector(p: string): string {
-  const m = p.match(/^(.*?):(?:raw(?::[\d,+-]+)?|conflicts|[\d,+-]+(?::raw)?)$/);
+  const m = p.match(
+    /^(.*?):(?:raw(?::[\d,+-]+)?|conflicts|[\d,+-]+(?::raw)?)$/,
+  );
   return m ? m[1] : p;
 }
 
@@ -108,7 +160,9 @@ async function resolveCandidate(raw: string, cwd: string): Promise<string> {
   const expanded = stripped.startsWith("~")
     ? path.join(homedir(), stripped.slice(1))
     : stripped;
-  const absolute = path.isAbsolute(expanded) ? expanded : path.resolve(cwd, expanded);
+  const absolute = path.isAbsolute(expanded)
+    ? expanded
+    : path.resolve(cwd, expanded);
   try {
     return await fs.realpath(absolute);
   } catch {
@@ -146,7 +200,12 @@ function isAllowed(target: string, state: GuardState): boolean {
 
 function splitPathField(value: unknown, multi: boolean): string[] {
   if (typeof value !== "string" || value.length === 0) return [];
-  return multi ? value.split(";").map((s) => s.trim()).filter(Boolean) : [value];
+  return multi
+    ? value
+        .split(";")
+        .map((s) => s.trim())
+        .filter(Boolean)
+    : [value];
 }
 
 const EDIT_HEADER_RE = /^\[(.+?)#[0-9A-Za-z]{4}\]$/gm;
@@ -157,12 +216,15 @@ function extractEditPaths(input: string): string[] {
   for (const m of input.matchAll(EDIT_HEADER_RE)) out.push(m[1]);
   for (const m of input.matchAll(EDIT_MV_RE)) {
     const dest = m[1].trim();
-    out.push(dest.startsWith('"') && dest.endsWith('"') ? dest.slice(1, -1) : dest);
+    out.push(
+      dest.startsWith('"') && dest.endsWith('"') ? dest.slice(1, -1) : dest,
+    );
   }
   return out;
 }
 
-const BASH_CD_RE = /(?:^|&&|;|\n)\s*cd\s+(~\/[^\s"'`&;|]+|\/[^\s"'`&;|]+|"[^"]+"|'[^']+')/g;
+const BASH_CD_RE =
+  /(?:^|&&|;|\n)\s*cd\s+(~\/[^\s"'`&;|]+|\/[^\s"'`&;|]+|"[^"]+"|'[^']+')/g;
 const BASH_ABS_RE = /(~\/[^\s"'`&;|)]+|\/Users\/[^\s"'`&;|)]+)/g;
 
 function extractBashPaths(command: string, cwd: unknown): string[] {
@@ -170,7 +232,10 @@ function extractBashPaths(command: string, cwd: unknown): string[] {
   if (typeof cwd === "string" && cwd) out.push(cwd);
   for (const m of command.matchAll(BASH_CD_RE)) {
     let target = m[1];
-    if ((target.startsWith('"') && target.endsWith('"')) || (target.startsWith("'") && target.endsWith("'"))) {
+    if (
+      (target.startsWith('"') && target.endsWith('"')) ||
+      (target.startsWith("'") && target.endsWith("'"))
+    ) {
       target = target.slice(1, -1);
     }
     out.push(target);
@@ -186,7 +251,8 @@ function redactEnvSections(text: string): string {
   const bracketWhole = text.match(/^\[(.+?)\]/);
   if (bracketWhole) {
     const name = bracketWhole[1].replace(/#[0-9A-Za-z]{4}$/, "");
-    if (isBlockedEnvFile(name)) return `[REDACTED: blocked .env file — ${name}]`;
+    if (isBlockedEnvFile(name))
+      return `[REDACTED: blocked .env file — ${name}]`;
   }
 
   const lines = text.split("\n");
@@ -214,7 +280,10 @@ function redactEnvSections(text: string): string {
   return out.join("\n");
 }
 
-function extractCandidatePaths(toolName: string, input: Record<string, unknown>): string[] {
+function extractCandidatePaths(
+  toolName: string,
+  input: Record<string, unknown>,
+): string[] {
   switch (toolName) {
     case "read":
     case "write":
@@ -224,11 +293,17 @@ function extractCandidatePaths(toolName: string, input: Record<string, unknown>)
     case "ast_grep":
       return splitPathField(input.path, true);
     case "ast_edit":
-      return Array.isArray(input.paths) ? input.paths.filter((p): p is string => typeof p === "string") : [];
+      return Array.isArray(input.paths)
+        ? input.paths.filter((p): p is string => typeof p === "string")
+        : [];
     case "edit":
-      return typeof input.input === "string" ? extractEditPaths(input.input) : [];
+      return typeof input.input === "string"
+        ? extractEditPaths(input.input)
+        : [];
     case "bash":
-      return typeof input.command === "string" ? extractBashPaths(input.command, input.cwd) : [];
+      return typeof input.command === "string"
+        ? extractBashPaths(input.command, input.cwd)
+        : [];
     default:
       return [];
   }
@@ -251,9 +326,7 @@ export default function ompGuard(pi: ExtensionAPI): void {
 
   pi.on("session_start", async (_event, ctx) => {
     state.root = await realpathOrRaw(ctx.cwd);
-    state.allow = await Promise.all(
-      [path.join(homedir(), ".omp"), "/tmp", "/var/folders"].map(realpathOrRaw),
-    );
+    state.allow = await Promise.all(ALLOWLIST.map(realpathOrRaw));
     state.approved.clear();
   });
 
@@ -264,21 +337,36 @@ export default function ompGuard(pi: ExtensionAPI): void {
     // .env content is never readable, regardless of session root/allowlist.
     if (event.toolName === "bash" && typeof event.input.command === "string") {
       if (bashExposesEnvContent(event.input.command)) {
-        return { block: true, reason: "Blocked: command reads a .env file. .env contents may never be read." };
+        return {
+          block: true,
+          reason:
+            "Blocked: command reads a .env file. .env contents may never be read.",
+        };
       }
     } else if (ENV_CONTENT_TOOLS[event.toolName]) {
-      const targets = extractCandidatePaths(event.toolName, event.input as Record<string, unknown>);
+      const targets = extractCandidatePaths(
+        event.toolName,
+        event.input as Record<string, unknown>,
+      );
       if (targets.some((t) => isBlockedEnvFile(t))) {
-        return { block: true, reason: "Blocked: .env files may never be read." };
+        return {
+          block: true,
+          reason: "Blocked: .env files may never be read.",
+        };
       }
     }
 
-    const raw = extractCandidatePaths(event.toolName, event.input as Record<string, unknown>);
+    const raw = extractCandidatePaths(
+      event.toolName,
+      event.input as Record<string, unknown>,
+    );
     if (raw.length === 0) return;
 
     const filtered = raw.filter((p) => p.length > 0 && !NON_LOCAL_RE.test(p));
     if (filtered.length === 0) return;
-    const resolved = await Promise.all(filtered.map((p) => resolveCandidate(p, state.root)));
+    const resolved = await Promise.all(
+      filtered.map((p) => resolveCandidate(p, state.root)),
+    );
     const offenders = resolved.filter((p) => !isAllowed(p, state));
     if (offenders.length === 0) return;
 
