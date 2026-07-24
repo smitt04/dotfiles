@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "praxis": {
+      "command": "/Users/ksmithson/.local/bin/praxis-mcp"
+    }
+  }
+}
